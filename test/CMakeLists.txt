@@ -164,7 +164,15 @@ add_custom_target(BuildOfficial)
 
 ei_add_test(clz)
 ei_add_test(rand)
+
 ei_add_test(meta)
+# R++ shows the 'static_assert' https://github.com/AndreyG/Eigen/blob/2f306994cda62d35d22b1189c3484f9eca7cb1f1/test/meta.cpp#L72
+# as failed in default (i.e. permissive) MSVC mode.
+# In other words it considers 'Matrix3f' convertible to 'Matrix3f&' (the famous RvalueToLvalueBinding),
+# though MSVC somehow compiles this code even in the permissive mode.
+# IMO it's not worth investigating right now, so let's just patch the compilation properties for the inspectcode.exe test.
+target_compile_options(meta PUBLIC "/permissive-")
+
 ei_add_test(maxsizevector)
 ei_add_test(numext)
 ei_add_test(sizeof)
