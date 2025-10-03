@@ -4,17 +4,8 @@ if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/split_test_helper.h)
   file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/split_test_helper.h)
 endif()
 
-# check if we have a Fortran compiler
-include(CheckLanguage)
-check_language(Fortran)
-if(CMAKE_Fortran_COMPILER)
-  enable_language(Fortran)
-  set(EIGEN_Fortran_COMPILER_WORKS ON)
-else()
-  set(EIGEN_Fortran_COMPILER_WORKS OFF)
-  # search for a default Lapack library to complete Eigen's one
-  find_package(LAPACK QUIET)
-endif()
+set(EIGEN_Fortran_COMPILER_WORKS OFF)
+find_package(LAPACK QUIET)
 
 # TODO do the same for EXTERNAL_LAPACK
 option(EIGEN_TEST_EXTERNAL_BLAS "Use external BLAS library for testsuite" OFF)
